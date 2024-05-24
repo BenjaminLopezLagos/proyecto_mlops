@@ -1,1 +1,3 @@
-.conda
+.conda/
+data/
+/data
