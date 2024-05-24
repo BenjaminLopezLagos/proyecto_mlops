@@ -9,7 +9,7 @@ def main():
 
     model = YOLO(f'./yolov8n.pt')
 
-    results = model.train(task='detect', workers=4, data='data/raw_dataset/data.yaml', epochs=10, cache=False, batch=8)  # train the model
+    results = model.train(task='detect', workers=4, data='./data/raw_dataset/data.yaml', epochs=1, cache=False, batch=8)  # train the model
 
 if __name__ == '__main__':
     main()
