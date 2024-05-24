@@ -12,6 +12,7 @@ stages:
   test_model:
     cmd: python test.py
     deps:
+    - models/model.pt
     - potatoes.jpg
     - test.py
     - utils.py

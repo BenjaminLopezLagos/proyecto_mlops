@@ -32,6 +32,10 @@ stages:
   test_model:
     cmd: python test.py
     deps:
+    - path: models/model.pt
+      hash: md5
+      md5: 83785a00430a69a71f1391118ee208e1
+      size: 6246873
     - path: potatoes.jpg
       hash: md5
       md5: 5c2f4772def693dc058a7113fa8ac755
