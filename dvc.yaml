@@ -8,4 +8,12 @@ stages:
     - utils.py
     outs:
     - models/model.pt
-    - training_results/
+    - training_results/train_metrics.csv
+  test_model:
+    cmd: python test.py
+    deps:
+    - potatoes.jpg
+    - test.py
+    - utils.py
+    outs:
+    - test_results/potatoes.jpg

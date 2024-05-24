@@ -15,3 +15,10 @@ def save_metrics(experiment_name: str) -> None:
 
         # save experiment training metrics  
         shutil.copy(src=f'{path_metrics}/results.csv', dst=f'./training_results/train_metrics.csv')
+
+def save_test_results(filename: str) -> None:
+    if os.path.isdir('runs'):
+        path_results = os.path.join('.', "runs/detect", 'predict')
+
+        # save experiment training metrics  
+        shutil.copy(src=f'{path_results}/{filename}', dst=f'./test_results/{filename}')

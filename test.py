@@ -1,13 +1,16 @@
 import torch
 import ultralytics
 from ultralytics import YOLO
+import utils
 
 def main():
     print(torch.cuda.is_available())
     ultralytics.checks()
 
-    model = YOLO(f'./runs/detect/train23/weights/best.pt')
-    results = model(["./images (2).jpg"], save=True, save_txt=True)
+    img = 'potatoes.jpg'
+    model = YOLO(f'./models/model.pt')
+    results = model([img], save=True, save_txt=True)
+    utils.save_test_results(img)
 
 if __name__ == '__main__':
     main()
