@@ -8,6 +8,7 @@ stages:
     - utils.py
     outs:
     - models/model.pt
+    metrics:
     - training_results/train_metrics.csv
   test_model:
     cmd: python test.py
