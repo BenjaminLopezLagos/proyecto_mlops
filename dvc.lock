@@ -10,7 +10,7 @@ stages:
       nfiles: 17831
     - path: params.yaml
       hash: md5
-      md5: c51c99e04d5309e3a5e977508bcdc58c
+      md5: 300ac1523ae9357c92a785402b5710bd
       size: 80
     - path: train.py
       hash: md5
@@ -23,19 +23,19 @@ stages:
     outs:
     - path: models/model.pt
       hash: md5
-      md5: 83785a00430a69a71f1391118ee208e1
-      size: 6246873
+      md5: 87838ddc9e098479e9b77da19641ce5c
+      size: 6247129
     - path: training_results/train_metrics.csv
       hash: md5
-      md5: 509d8ddea075afe3be6c743e7e44c8fd
-      size: 674
+      md5: 9a6043f9903d58e94e4ca7074fde2588
+      size: 1348
   test_model:
     cmd: python test.py
     deps:
     - path: models/model.pt
       hash: md5
-      md5: 83785a00430a69a71f1391118ee208e1
-      size: 6246873
+      md5: 87838ddc9e098479e9b77da19641ce5c
+      size: 6247129
     - path: potatoes.jpg
       hash: md5
       md5: 5c2f4772def693dc058a7113fa8ac755
@@ -51,5 +51,5 @@ stages:
     outs:
     - path: test_results/potatoes.jpg
       hash: md5
-      md5: 96c985b5e3a4c293ca1b61a1670a5992
-      size: 151339
+      md5: abdb72a780a36c1755cb3bda3b7c5a12
+      size: 149416
