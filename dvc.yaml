@@ -10,10 +10,16 @@ stages:
     - models/model.pt
     metrics:
     - training_results/train_metrics.csv
+  conversion_to_onnx:
+    cmd: python to_onnx.py
+    deps:
+    - models/model.pt
+    outs:
+    - models/model.onnx
   test_model:
     cmd: python test.py
     deps:
-    - models/model.pt
+    - models/model.onnx
     - potatoes.jpg
     - test.py
     - utils.py
