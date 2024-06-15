@@ -23,7 +23,7 @@ stages:
     outs:
     - path: models/model.pt
       hash: md5
-      md5: e8cdc231472d95be6848808546ff5ecd
+      md5: 178a25ab5fb8cbe447c3cb06dfbdad53
       size: 6247129
     - path: training_results/train_metrics.csv
       hash: md5
@@ -32,18 +32,18 @@ stages:
   test_model:
     cmd: python test.py
     deps:
-    - path: models/model.pt
+    - path: models/model.onnx
       hash: md5
-      md5: e8cdc231472d95be6848808546ff5ecd
-      size: 6247129
+      md5: 36887000d105eb14bf880a9335845daa
+      size: 12241405
     - path: potatoes.jpg
       hash: md5
       md5: 5c2f4772def693dc058a7113fa8ac755
       size: 53299
     - path: test.py
       hash: md5
-      md5: deb65bc5da45827a850ea79b52d7ad5d
-      size: 353
+      md5: 2efdead53c848bfcb61923c9bfd72e4b
+      size: 367
     - path: utils.py
       hash: md5
       md5: 298a95ebef209a9a021d8e23b61edfd4
@@ -51,5 +51,17 @@ stages:
     outs:
     - path: test_results/potatoes.jpg
       hash: md5
-      md5: a78b32499ea2b9c6e00b42c4b6475838
-      size: 148679
+      md5: 64786431fddf8a9a0b165af53a78817e
+      size: 150099
+  conversion_to_onnx:
+    cmd: python to_onnx.py
+    deps:
+    - path: models/model.pt
+      hash: md5
+      md5: 178a25ab5fb8cbe447c3cb06dfbdad53
+      size: 6247129
+    outs:
+    - path: models/model.onnx
+      hash: md5
+      md5: 36887000d105eb14bf880a9335845daa
+      size: 12241405
