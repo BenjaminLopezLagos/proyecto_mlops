@@ -7,7 +7,7 @@ def save_model(experiment_name: str):
         model_weights = experiment_name + "/weights/best.pt"
         path_model_weights = os.path.join('.', "runs/detect", model_weights)
 
-        shutil.copy(src=path_model_weights, dst=f'./models/model.pt')
+        shutil.copy(src=path_model_weights, dst=f'./models/model_new.pt')
 
 def save_metrics(experiment_name: str) -> None:
     if os.path.isdir('runs'):

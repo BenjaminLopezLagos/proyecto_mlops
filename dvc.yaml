@@ -7,9 +7,16 @@ stages:
     - train.py
     - utils.py
     outs:
-    - models/model.pt
+    - models/model_new.pt
     metrics:
     - training_results/train_metrics.csv
+  model_testing:
+    cmd: python model_performance.py
+    deps:
+    - models/model_old.pt
+    - models/model_new.pt
+    outs:
+    - models/model.pt
   conversion_to_onnx:
     cmd: python to_onnx.py
     deps:
