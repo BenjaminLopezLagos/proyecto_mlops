@@ -65,3 +65,19 @@ stages:
       hash: md5
       md5: 36887000d105eb14bf880a9335845daa
       size: 12241405
+  model_testing:
+    cmd: python model_performance.py
+    deps:
+    - path: models/model_new.pt
+      hash: md5
+      md5: 00665b898c1fe310ce568bf71adf6671
+      size: 6249753
+    - path: models/model_old.pt
+      hash: md5
+      md5: 00665b898c1fe310ce568bf71adf6671
+      size: 6249753
+    outs:
+    - path: models/model.pt
+      hash: md5
+      md5: 00665b898c1fe310ce568bf71adf6671
+      size: 6249753
