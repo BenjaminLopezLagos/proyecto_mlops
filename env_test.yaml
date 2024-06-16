@@ -5,8 +5,9 @@ channels:
   - pytorch
   - nvidia
 dependencies:
-  - python=3.10
+  - python=3.10.14
   - flask
+  - pytorch
   - numpy
   - pandas
   - zlib
@@ -14,7 +15,7 @@ dependencies:
   - yarl
   - yaml-cpp
   - pyyaml
+  - opencv
   - pip:
     - roboflow
     - ultralytics
-    - opencv-python

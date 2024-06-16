@@ -6,10 +6,12 @@ COPY env_test.yaml .
 
 RUN conda env create -n myenv -f env_test.yaml
 
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
 SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
 
 COPY streaming_api.py .
-COPY models/model.onnx ./models
+COPY models/model.onnx ./models/
 COPY vid.mp4 .
 
 RUN echo "conda activate myenv" >> ~/.bashrc
