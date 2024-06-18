@@ -10,7 +10,7 @@ stages:
       nfiles: 17831
     - path: params.yaml
       hash: md5
-      md5: e25ac4d784e65c0332b1b07bc66add25
+      md5: e52418d81e3048d240085480cd843766
       size: 82
     - path: train.py
       hash: md5
@@ -23,18 +23,18 @@ stages:
     outs:
     - path: models/model_new.pt
       hash: md5
-      md5: 00665b898c1fe310ce568bf71adf6671
-      size: 6249753
+      md5: 1bf7c13a1725dc6940ea542ff5e6052e
+      size: 6252697
     - path: training_results/train_metrics.csv
       hash: md5
-      md5: ca9c31d2d8b903d6e69f7762f795d57d
-      size: 8762
+      md5: 8a013be49030560ab931f5ebd1f304c5
+      size: 17187
   test_model:
     cmd: python test.py
     deps:
     - path: models/model.onnx
       hash: md5
-      md5: 36887000d105eb14bf880a9335845daa
+      md5: 30aab5164d5cba5e82a8a7e1efffeb53
       size: 12241405
     - path: potatoes.jpg
       hash: md5
@@ -46,38 +46,38 @@ stages:
       size: 367
     - path: utils.py
       hash: md5
-      md5: 298a95ebef209a9a021d8e23b61edfd4
-      size: 925
+      md5: 0bca4044f3300b0b15475e75a49ccb75
+      size: 929
     outs:
     - path: test_results/potatoes.jpg
       hash: md5
-      md5: 64786431fddf8a9a0b165af53a78817e
-      size: 150099
+      md5: d20e38aea6775179451d0d0976704368
+      size: 150905
   conversion_to_onnx:
     cmd: python to_onnx.py
     deps:
     - path: models/model.pt
       hash: md5
-      md5: 178a25ab5fb8cbe447c3cb06dfbdad53
-      size: 6247129
+      md5: 1bf7c13a1725dc6940ea542ff5e6052e
+      size: 6252697
     outs:
     - path: models/model.onnx
       hash: md5
-      md5: 36887000d105eb14bf880a9335845daa
+      md5: 30aab5164d5cba5e82a8a7e1efffeb53
       size: 12241405
   model_testing:
     cmd: python model_performance.py
     deps:
     - path: models/model_new.pt
       hash: md5
-      md5: 00665b898c1fe310ce568bf71adf6671
-      size: 6249753
+      md5: 1bf7c13a1725dc6940ea542ff5e6052e
+      size: 6252697
     - path: models/model_old.pt
       hash: md5
-      md5: 00665b898c1fe310ce568bf71adf6671
-      size: 6249753
+      md5: 1bf7c13a1725dc6940ea542ff5e6052e
+      size: 6252697
     outs:
     - path: models/model.pt
       hash: md5
-      md5: 00665b898c1fe310ce568bf71adf6671
-      size: 6249753
+      md5: 1bf7c13a1725dc6940ea542ff5e6052e
+      size: 6252697
