@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  model:
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
+    container_name: model_development_flask
+    ports:
+      - "5000:5000"
+#    volumes:
+#      - storage:/app
+    networks:
+      - app-network
+
+#volumes:
+#  storage:
+
+networks:
+  app-network:
+    driver: bridge
