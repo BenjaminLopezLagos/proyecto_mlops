@@ -1,21 +1,44 @@
 version: '3.8'
 
 services:
-  model:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: potato_container
+  jenkins-docker:
+    image: docker:dind
+    container_name: jenkins-docker
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
     ports:
-      - "5000:5000"
-#    volumes:
-#      - storage:/app
+      - "2376:2376"
     networks:
-      - app-network
+      jenkins:
+        aliases:
+          - docker
 
-#volumes:
-#  storage:
+  jenkins-blueocean:
+    build:
+      context: ./custom_jenkins
+      dockerfile: Dockerfile
+    container_name: jenkins-blueocean
+    restart: on-failure
+    environment:
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_CERT_PATH: /certs/client
+      DOCKER_TLS_VERIFY: 1
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - jenkins-docker-certs:/certs/client:ro
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      jenkins:
 
 networks:
-  app-network:
-    driver: bridge
+  jenkins:
+
+volumes:
+  jenkins-docker-certs:
+  jenkins-data:
