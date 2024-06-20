@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        GITHUB_KEY = credentials('github_token')
         DH_S3_KEY = credentials('dagshub_token')
     }
     stages {
