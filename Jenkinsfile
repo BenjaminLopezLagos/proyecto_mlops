@@ -17,7 +17,7 @@ pipeline {
         }
         stage ('Test API') {
             steps {
-                bat 'docker container exec potato_container python -m pytest app/tests/'
+                bat 'docker container exec potato_container python -m pytest /app/tests/'
             }
         }
         stage('Get dataset and models') {
