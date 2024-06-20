@@ -4,7 +4,7 @@ services:
   model:
     build:
       context: .
-      dockerfile: Dockerfile_dev
+      dockerfile: Dockerfile
     container_name: potato_container
     ports:
       - "5000:5000"
