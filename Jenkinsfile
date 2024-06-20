@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
     environment {
         GITHUB_KEY = credentials('github_token')
         DH_S3_KEY = credentials('dagshub_token')
@@ -12,21 +12,30 @@ pipeline {
                 '''
             }
         }
-        stage('Build from image') {
-            steps {
-                sh '''
-                   docker build -t potato-detector-dev .
-                   docker run -d --name potato-container potato-detector-dev
-                '''
-            }
-        }
         stage('Get dataset and models') {
             steps {
                 sh '''
-                   docker exec dind dvc version
-                   docker exec dind dvc remote modify origin --local access_key_id ${DH_S3_KEY}
-                   docker exec dind dvc remote modify origin --local secret_access_key ${DH_S3_KEY}
-                   docker exec dind dvc pull -r origin
+                   dvc version
+                   dvc remote modify origin --local access_key_id ${DH_S3_KEY}
+                   dvc remote modify origin --local secret_access_key ${DH_S3_KEY}
+                   dvc pull -r origin
+                '''
+            }
+        }
+        stage('train_test_model') {
+            steps {
+                sh '''
+                   . venv/bin/activate
+                   dagshub login --token ${DH_S3_KEY}
+                   dvc exp run
+                '''
+            }
+        }
+        stage('convert to onnx'){
+            steps {
+                sh '''
+                   . venv/bin/activate
+                   python to_onnx.py
                 '''
             }
         }
