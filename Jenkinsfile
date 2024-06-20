@@ -34,6 +34,7 @@ pipeline {
             steps {
                 sh '''
                    . venv/bin/activate
+                   dagshub login --token ${DH_S3_KEY}
                    dvc exp run
                 '''
             }
