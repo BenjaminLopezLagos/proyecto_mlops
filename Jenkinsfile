@@ -1,7 +1,4 @@
 pipeline {
-    agent {
-        dockerfile true
-    }
     environment {
         GITHUB_KEY = credentials('github_token')
         DH_S3_KEY = credentials('dagshub_token')
@@ -11,6 +8,14 @@ pipeline {
             steps {
                 sh '''
                    docker exec dind git clone https://${GITHUB_KEY}@github.com/BenjaminLopezLagos/proyecto_mlops.git
+                '''
+            }
+        }
+        stage('Build from image') {
+            steps {
+                sh '''
+                   docker exec dind docker build -t potato-detector-dev .
+                   docker exec dind docker run -d --name potato-container potato-detector-dev
                 '''
             }
         }
