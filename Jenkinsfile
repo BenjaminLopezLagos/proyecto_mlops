@@ -29,6 +29,6 @@ pipeline {
                    dvc pull -r origin
                 '''
             }
-
+        }
     }
 }
