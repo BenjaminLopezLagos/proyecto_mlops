@@ -9,41 +9,11 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Setup Python Environment') {
+        stage('Setup Container') {
             steps {
                 sh '''
-                   python3 -m venv venv
-                   . venv/bin/activate
-                   pip install --upgrade pip
-                   pip install --no-cache-dir -r requirements.txt
-                '''
-            }
-        }
-        stage('Get dataset and models') {
-            steps {
-                sh '''
-                   . venv/bin/activate
-                   dvc version
-                   dvc remote modify origin --local access_key_id ${DH_S3_KEY}
-                   dvc remote modify origin --local secret_access_key ${DH_S3_KEY}
-                   dvc pull -r origin
-                '''
-            }
-        }
-        stage('train_test_model') {
-            steps {
-                sh '''
-                   . venv/bin/activate
-                   dagshub login --token ${DH_S3_KEY}
-                   dvc exp run
-                '''
-            }
-        }
-        stage('convert to onnx'){
-            steps {
-                sh '''
-                   . venv/bin/activate
-                   python to_onnx.py
+                   docker build -t potato-detector-project Dockerfile_dev
+                   docker run -d --name potato potato-detector-project
                 '''
             }
         }
