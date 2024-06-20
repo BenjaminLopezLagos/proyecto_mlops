@@ -13,6 +13,8 @@ pipeline {
         stage('Build') {
             steps {
                 bat 'docker build -t potato-detector-dev .'
+                bat 'docker stop potato_container || true'
+                bat 'docker rm potato_container || true'
                 bat 'docker run -d -p 5000:5000 --name potato_container potato-detector-dev'
             }
         }
