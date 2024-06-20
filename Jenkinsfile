@@ -8,15 +8,15 @@ pipeline {
         stage('Checkout') {
             steps {
                 sh '''
-                   docker exec dind git clone https://${GITHUB_KEY}@github.com/BenjaminLopezLagos/proyecto_mlops.git
+                   git clone https://${GITHUB_KEY}@github.com/BenjaminLopezLagos/proyecto_mlops.git
                 '''
             }
         }
         stage('Build from image') {
             steps {
                 sh '''
-                   docker exec dind docker build -t potato-detector-dev .
-                   docker exec dind docker run -d --name potato-container potato-detector-dev
+                   docker build -t potato-detector-dev .
+                   docker run -d --name potato-container potato-detector-dev
                 '''
             }
         }
