@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_dev
-    container_name: model_development_flask
+    container_name: potato_container
     ports:
       - "5000:5000"
 #    volumes:
