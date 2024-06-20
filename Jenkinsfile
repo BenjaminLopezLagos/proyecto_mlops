@@ -12,7 +12,7 @@ pipeline {
         stage('Setup Container') {
             steps {
                 sh '''
-                   docker build -t potato-detector-project Dockerfile_dev
+                   docker build -t potato-detector-project .
                    docker run -d --name potato potato-detector-project
                 '''
             }
