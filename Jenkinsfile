@@ -15,6 +15,11 @@ pipeline {
                 bat 'docker compose up --build'
             }
         }
+        stage ('Test API') {
+            steps {
+                bat 'docker container exec potato_container python -m pytest app/tests/'
+            }
+        }
         stage('Get dataset and models') {
             steps {
                 bat 'docker container exec potato_container dvc version'

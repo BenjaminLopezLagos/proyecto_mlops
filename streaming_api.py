@@ -7,9 +7,13 @@ from flask import Flask, render_template, Response
 import cv2
 app = Flask(__name__)
 
+#@app.route('/')
+#def index():
+#    return render_template('index.html')
+
 @app.route('/')
-def index():
-    return render_template('index.html')
+def hello_world():
+    return 'olaaaa'
 
 @app.route('/video_feed')
 def video_feed():
