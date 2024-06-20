@@ -30,5 +30,21 @@ pipeline {
                 '''
             }
         }
+        stage('train_test_model') {
+            steps {
+                sh '''
+                   . venv/bin/activate
+                   dvc exp run
+                '''
+            }
+        }
+        stage('convert to onnx'){
+            steps {
+                sh '''
+                   . venv/bin/activate
+                   python to_onnx.py
+                '''
+            }
+        }
     }
 }

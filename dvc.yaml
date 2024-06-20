@@ -17,18 +17,4 @@ stages:
     - models/model_new.pt
     outs:
     - models/model.pt
-  conversion_to_onnx:
-    cmd: python to_onnx.py
-    deps:
-    - models/model.pt
-    outs:
-    - models/model.onnx
-  test_model:
-    cmd: python test.py
-    deps:
-    - models/model.onnx
-    - potatoes.jpg
-    - test.py
-    - utils.py
-    outs:
-    - test_results/potatoes.jpg
+    
