@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh '''
+                bat '''
                    docker build -t potato-detector-dev .
                    docker run -d -p 5000:5000 --name potato_container potato-detector-dev
                 '''
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Get dataset and models') {
             steps {
-                sh '''
+                bat '''
                    docker container exec potato_container dvc version
                    docker container exec potato_container dvc remote modify origin --local access_key_id ${DH_S3_KEY}
                    docker container exec potato_container dvc remote modify origin --local secret_access_key ${DH_S3_KEY}
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('train_test_model') {
             steps {
-                sh '''
+                bat '''
                    docker container exec potato_container dagshub login --token ${DH_S3_KEY}
                    docker container exec potato_container dvc exp run
                 '''
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('convert to onnx'){
             steps {
-                sh '''
+                bat '''
                    docker container exec potato_container python to_onnx.py
                 '''
             }
