@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'docker compose up --build'
+                bat 'docker compose up -d --build'
             }
         }
         stage ('Test API') {
