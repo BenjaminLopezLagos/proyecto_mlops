@@ -9,6 +9,12 @@ pipeline {
             steps {
                 sh '''
                    git clone https://${GITHUB_KEY}@github.com/BenjaminLopezLagos/proyecto_mlops.git
+                '''
+            }
+        }
+        stage('Build') {
+            steps {
+                sh '''
                    docker build -t potato-detector-dev .
                    docker run -d -p 5000:5000 --name potato_container potato-detector-dev
                 '''
