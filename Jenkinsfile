@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile true
+    }
     environment {
         DH_S3_KEY = credentials('dagshub_token')
     }
@@ -9,11 +11,13 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Setup Container') {
+        stage('Get dataset and models') {
             steps {
                 sh '''
-                   docker build -t potato-detector-project .
-                   docker run -d --name potato potato-detector-project
+                   dvc version
+                   dvc remote modify origin --local access_key_id ${DH_S3_KEY}
+                   dvc remote modify origin --local secret_access_key ${DH_S3_KEY}
+                   dvc pull -r origin
                 '''
             }
         }
