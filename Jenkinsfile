@@ -7,9 +7,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh '''
-                   git clone https://${GITHUB_KEY}@github.com/BenjaminLopezLagos/proyecto_mlops.git
-                '''
+                checkout scm
             }
         }
         stage('Build') {
