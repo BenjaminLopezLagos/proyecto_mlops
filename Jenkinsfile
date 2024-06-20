@@ -23,14 +23,14 @@ pipeline {
         stage('Get dataset and models') {
             steps {
                 bat 'docker container exec potato_container dvc version'
-                bat 'docker container exec potato_container dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
-                bat 'docker container exec potato_container dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
+                bat 'docker container exec potato_container dvc remote modify origin --local access_key_id %DH_S3_KEY%'
+                bat 'docker container exec potato_container dvc remote modify origin --local secret_access_key %DH_S3_KEY%'
                 bat 'docker container exec potato_container dvc pull -r origin'
             }
         }
         stage('train_test_model') {
             steps {
-                bat 'docker container exec potato_container dagshub login --token ${DH_S3_KEY}'
+                bat 'docker container exec potato_container dagshub login --token %DH_S3_KEY%'
                 bat 'docker container exec potato_container dvc exp run'
             }
         }
