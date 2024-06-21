@@ -36,6 +36,15 @@ services:
     networks:
       jenkins:
 
+  potato-detector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: papita
+    ports:
+      - "5000:5000"
+
+
 networks:
   jenkins:
 
