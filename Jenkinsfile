@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker build -t potato-dev .'
-                sh 'docker run -p 5000:5000 --name potato_container potato-dev'
+                sh 'docker run -d -p 5000:5000 --name potato_container potato-dev'
             }
         }
         stage ('Test API') {
