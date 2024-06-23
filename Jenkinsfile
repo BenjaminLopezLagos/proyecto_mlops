@@ -12,31 +12,54 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker build -t potato-dev .'
-                sh 'docker run -d -p 5000:5000 --name potato_container potato-dev'
             }
         }
         stage ('Test API') {
+            agent {
+                docker {
+                    image 'potato-dev'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'docker container exec potato_container python -m pytest /app/tests/'
+                sh 'python -m pytest /app/tests/'
             }
         }
         stage('Get dataset and models') {
+            agent {
+                docker {
+                    image 'potato-dev'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'docker container exec potato_container dvc version'
-                sh 'docker container exec potato_container dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
-                sh 'docker container exec potato_container dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
-                sh 'docker container exec potato_container dvc pull -r origin'
+                sh 'dvc version'
+                sh 'dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
+                sh 'dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
+                sh 'dvc pull -r origin'
             }
         }
         stage('train_test_model') {
+            agent {
+                docker {
+                    image 'potato-dev'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'docker container exec potato_container dagshub login --token ${DH_S3_KEY}'
-                sh 'docker container exec potato_container dvc exp run'
+                sh 'dagshub login --token ${DH_S3_KEY}'
+                sh 'dvc exp run'
             }
         }
         stage('convert to onnx'){
+            agent {
+                docker {
+                    image 'potato-dev'
+                    reuseNode true
+                }
+            }
             steps {
-                sh 'docker container exec potato_container python to_onnx.py'
+                sh 'python to_onnx.py'
             }
         }
     }
