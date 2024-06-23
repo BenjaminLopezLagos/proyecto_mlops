@@ -25,6 +25,7 @@ pipeline {
                 sh 'python -m pytest /app/tests/'
             }
         }
+        /*
         stage('Get dataset and models') {
             agent {
                 docker {
@@ -38,6 +39,7 @@ pipeline {
                 sh 'dvc pull -r origin'
             }
         }
+        */
         stage('train_test_model') {
             agent {
                 docker {
@@ -46,6 +48,9 @@ pipeline {
                 }
             }
             steps {
+                sh 'dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
+                sh 'dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
+                sh 'dvc pull -r origin'
                 sh 'dagshub login --token ${DH_S3_KEY}'
                 sh 'dvc exp run'
             }
