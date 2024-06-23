@@ -12,6 +12,8 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker build -t potato-dev .'
+                sh 'docker stop potato_container || true'
+                sh 'docker rm potato_container || true'
                 sh 'docker run -d -p 5000:5000 --name potato_container potato-dev'
             }
         }
