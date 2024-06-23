@@ -1,0 +1,21 @@
+name: myenv
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.10.14
+  - flask
+  - pytorch
+  - numpy
+  - pandas
+  - zlib
+  - zstandard
+  - yarl
+  - yaml-cpp
+  - pyyaml
+  - opencv
+  - pip:
+    - roboflow
+    - ultralytics

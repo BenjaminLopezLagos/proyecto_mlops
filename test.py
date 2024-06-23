@@ -2,13 +2,14 @@ import torch
 import ultralytics
 from ultralytics import YOLO
 import utils
+import cv2
 
 def main():
     print(torch.cuda.is_available())
     ultralytics.checks()
 
+    model = YOLO(f'./models/model.onnx')
     img = 'potatoes.jpg'
-    model = YOLO(f'./models/model.pt')
     results = model([img], save=True, save_txt=True)
     utils.save_test_results(img)
 

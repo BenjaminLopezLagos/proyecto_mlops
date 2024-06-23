@@ -26,7 +26,7 @@ def main():
             epochs = params['EPOCHS']
             
             results = model.train(task='detect', workers=workers,
-                                data='./data/raw_dataset/data.yaml',
+                                data='/app/data/raw_dataset/data.yaml',
                                     epochs=epochs,
                                     cache=False,
                                         batch=batch,

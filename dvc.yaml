@@ -7,15 +7,14 @@ stages:
     - train.py
     - utils.py
     outs:
-    - models/model.pt
+    - models/model_new.pt
     metrics:
     - training_results/train_metrics.csv
-  test_model:
-    cmd: python test.py
+  model_testing:
+    cmd: python model_performance.py
     deps:
-    - models/model.pt
-    - potatoes.jpg
-    - test.py
-    - utils.py
+    - models/model_old.pt
+    - models/model_new.pt
     outs:
-    - test_results/potatoes.jpg
+    - models/model.pt
+    
