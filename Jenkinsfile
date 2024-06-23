@@ -33,7 +33,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'dvc version'
                 sh 'dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
                 sh 'dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
                 sh 'dvc pull -r origin'
