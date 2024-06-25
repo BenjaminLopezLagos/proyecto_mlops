@@ -1,6 +1,3 @@
-import torch
-import ultralytics
-from ultralytics import YOLO
 from PIL import Image
 import cv2
 from flask import Flask, render_template, Response
@@ -20,11 +17,6 @@ def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 def gen_frames():
-    print(torch.cuda.is_available())
-    ultralytics.checks()
-
-    model = YOLO('./models/model.onnx')
-    video_path = "./vid.mp4"
     cap = cv2.VideoCapture(0)
 
     # Set the desired frame rate (frames per second)
@@ -39,9 +31,7 @@ def gen_frames():
             break
         else:
             if frame_count % frame_skip == 0:
-                results = model.predict(frame)
-                for result in results:
-                    ret, buffer = cv2.imencode('.jpg', result.plot())
+                    ret, buffer = cv2.imencode('.jpg', frame)
                     frame = buffer.tobytes()
                     yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
@@ -49,4 +39,4 @@ def gen_frames():
         frame_count += 1
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5001)
