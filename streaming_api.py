@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'olaaaa'
+    return render_template('index.html')
 
 @app.route('/video_feed')
 def video_feed():
@@ -24,8 +24,8 @@ def gen_frames():
     ultralytics.checks()
 
     model = YOLO('./models/model.onnx')
-    video_path = "./vid.mp4"
-    cap = cv2.VideoCapture(0)
+    video_path = "./vid2.mp4"
+    cap = cv2.VideoCapture(video_path)
 
     # Set the desired frame rate (frames per second)
     desired_fps = 15
