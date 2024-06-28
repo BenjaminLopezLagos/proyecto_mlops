@@ -14,7 +14,9 @@ pipeline {
                 sh 'docker build -t potato-dev .'
                 sh 'docker stop potato_container || true'
                 sh 'docker rm potato_container || true'
-                sh 'docker run -d -p 5000:5000 --name potato_container potato-dev'
+                // sh 'docker run -d -p 5000:5000 --name potato_container potato-dev'
+                // Aquí especificamos que el contenedor debe usar la GPU
+                sh 'docker run -d --gpus all -p 5000:5000 --name potato_container potato-dev'
             }
         }
         stage ('Test API') {
