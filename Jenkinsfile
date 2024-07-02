@@ -48,7 +48,7 @@ pipeline {
             steps {
                 sh 'mkdir -p models'
                 sh 'docker container cp potato_container:/app/models/model.onnx ./models/'
-                sh 'docker build -t potato-detection-app -f Dockerfile_prod .'
+                sh 'docker build -t benjaminlopezlagos/papita -f Dockerfile_prod .'
                 sh 'docker login -u benjaminlopezlagos -p ${DOCKER_HUB_KEY}'
                 sh 'docker push benjaminlopezlagos/papita:latest'
             }
