@@ -25,7 +25,10 @@ def gen_frames():
 
     model = YOLO('./models/model.onnx')
     video_path = "./vid.mp4"
-    cap = cv2.VideoCapture(video_path)
+    try:
+        cap = cv2.VideoCapture('rtsp://rtsp-server:8554/mystream')
+    except:
+        return Response('nooo', status=404)
 
     # Set the desired frame rate (frames per second)
     desired_fps = 15
