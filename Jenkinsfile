@@ -49,7 +49,7 @@ pipeline {
                 sh 'mkdir -p models'
                 sh 'docker container cp potato_container:/app/models/model.onnx ./models/'
                 sh 'docker build -t potato-detection-app -f Dockerfile_prod .'
-                sh 'docker login --username ${DOCKER_HUB_KEY}'
+                sh 'docker login -u benjaminlopezlagos -p ${DOCKER_HUB_KEY}'
                 sh 'docker push benjaminlopezlagos/papita:latest'
             }
         }
