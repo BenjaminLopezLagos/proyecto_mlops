@@ -1,5 +1,5 @@
 IMAGE_SIZE: 640 
 WORKERS: 2
-BATCH: 3 
+BATCH: -1 
 EPOCHS: 1
-NAME: 'potato_detector_test'
+NAME: 'potato_detector_training'
