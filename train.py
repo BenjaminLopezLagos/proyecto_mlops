@@ -85,7 +85,8 @@ def compute_class_weights(dataset_path):
     print(total_samples)
     class_weights = []
     for count in class_counts.values():
-        weight = 1 / (count / total_samples)
+        n_classes = len(class_counts)
+        weight = total_samples / (n_classes * count)
         class_weights.append(weight)
         
     return class_weights
