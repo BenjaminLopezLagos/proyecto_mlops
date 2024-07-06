@@ -10,6 +10,8 @@ from roboflow import Roboflow
 from sklearn.model_selection import ParameterGrid
 import utils
 from collections import defaultdict
+from kfolds_yolo import perform_kfolds
+from statistics import mean 
 
 class WeightedLoss(nn.Module):
     def __init__(self, class_weights):
@@ -20,7 +22,8 @@ class WeightedLoss(nn.Module):
     def forward(self, outputs, targets):
         return self.criterion(outputs, targets)
 
-def train_current_hyperparams(hyperparams, data_path, name):
+# if epochs is -1 just use the value from params.yaml
+def train_current_hyperparams(hyperparams, data_path, name, epochs=-1):
     with open(r"params.yaml") as f:
         params = yaml.safe_load(f) 
         print(torch.cuda.is_available())
@@ -33,7 +36,8 @@ def train_current_hyperparams(hyperparams, data_path, name):
 
         workers = params['WORKERS']
         batch = params['BATCH']
-        epochs = params['EPOCHS']
+        if epochs == -1:
+            epochs = params['EPOCHS']
             
         results = model.train(task='detect', workers=workers,
                             data=f'{data_path}/data.yaml',
@@ -50,15 +54,22 @@ def train_current_hyperparams(hyperparams, data_path, name):
 
     return results.box.map
 
-def perform_grid_search(param_grid, data_path):
+def perform_grid_search(param_grid, data_path, ksplits=5):
     best_params = {}
     best_map = 0
+    folds = perform_kfolds(data_path, ksplits)
 
     for params in ParameterGrid(param_grid):
+        cv_results = []
         print(len(list(ParameterGrid(param_grid))))
-        map = train_current_hyperparams(params, data_path, 'potato-detector-tuning')
-        print(f"Params: {params}, map: {map}")
 
+        for k in range(ksplits):
+            dataset_yaml = folds[k]
+            map = train_current_hyperparams(params, dataset_yaml, 'potato-detector-tuning', epochs=3)
+            print(f"Params: {params}, map: {map}")
+            cv_results.append(map)
+
+        map = mean(cv_results)
         if map > best_map:
             best_map = map
             best_params = params
@@ -92,15 +103,15 @@ def compute_class_weights(dataset_path):
     return class_weights
 
 def main():
-    data_dir_path = '/app/data/raw_dataset'
+    data_dir_path = './data/raw_dataset'
     print(compute_class_weights(f'{data_dir_path}/train'))
     experiment_name = 'potato-training'
 
     param_grid = {
-        'lr0': [0.01, 0.001, 0.0001],
+        'lr0': [0.001, 0.0001],
         'dropout': [0.5, 0.0],
         'weight_decay': [0.01, 0.001],
-        'optimizer': ['SGD', 'Adam'],
+        'optimizer': ['Adam'],
     }
 
     best_params = perform_grid_search(param_grid, data_dir_path)
