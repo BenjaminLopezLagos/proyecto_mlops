@@ -5,6 +5,9 @@ from PIL import Image
 import cv2
 from flask import Flask, render_template, Response
 import cv2
+import sys
+
+video_source = ''
 app = Flask(__name__)
 
 #@app.route('/')
@@ -26,7 +29,7 @@ def gen_frames():
     model = YOLO('./models/model.onnx')
     video_path = "./vid.mp4"
     try:
-        cap = cv2.VideoCapture('rtsp://rtsp-server:8554/mystream')
+        cap = cv2.VideoCapture(video_source)
     except:
         return Response('nooo', status=404)
 
@@ -52,4 +55,6 @@ def gen_frames():
         frame_count += 1
 
 if __name__ == '__main__':
+    print('arguments', sys.argv)
+    video_source = sys.argv[1]
     app.run(debug=True, host='0.0.0.0')
