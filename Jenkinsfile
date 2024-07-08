@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DH_S3_KEY = credentials('dagshub_token')
+        DOCKER_HUB_KEY = credentials('dockerhub_token')
     }
     stages {
         stage('Checkout') {
@@ -30,6 +31,7 @@ pipeline {
                 sh 'docker container exec potato_container dvc pull -r origin'
             }
         }
+        /*
         stage('train_test_model') {
             steps {
                 sh 'docker container exec potato_container dagshub login --token ${DH_S3_KEY}'
@@ -39,6 +41,16 @@ pipeline {
         stage('convert to onnx'){
             steps {
                 sh 'docker container exec potato_container python to_onnx.py'
+            }
+        }
+        */
+        stage('deploy image'){
+            steps {
+                sh 'mkdir -p models'
+                sh 'docker container cp potato_container:/app/models/model.onnx ./models/'
+                sh 'docker build -t benjaminlopezlagos/papita -f Dockerfile_prod .'
+                sh 'docker login -u benjaminlopezlagos -p ${DOCKER_HUB_KEY}'
+                sh 'docker push benjaminlopezlagos/papita:latest'
             }
         }
     }

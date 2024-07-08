@@ -1,4 +1,4 @@
-FROM ultralytics/ultralytics
+FROM ultralytics/ultralytics:latest
 
 WORKDIR /app
 
@@ -10,7 +10,6 @@ RUN pip install --no-cache-dir -r /app/tmp/requirements.txt
 
 COPY streaming_api.py .
 COPY models/model.onnx ./models/
-COPY vid.mp4 .
 
 EXPOSE 5000
 CMD ["python", "streaming_api.py"]

@@ -1,4 +1,4 @@
-FROM python:3.10.14
+FROM ultralytics/ultralytics:latest
 
 WORKDIR /app
 

@@ -12,7 +12,7 @@ def compare_models(model_path1, model_path2):
 
     # Load the second model
     model2 = YOLO(model_path2)
-    metrics2 = model2.val(data='/app/data/raw_dataset/data.yaml')
+    metrics2 = model2.val()
 
     # Compare MAP50-95 and print which model is better
     print(metrics1.box.map)
