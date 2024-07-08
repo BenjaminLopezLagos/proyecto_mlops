@@ -30,7 +30,7 @@ def train_current_hyperparams(hyperparams, data_path, name, epochs=-1):
         
         ultralytics.checks()
 
-        class_weights = compute_class_weights(f'{data_path}/train')
+        class_weights = compute_class_weights(data_path.replace('/data.yaml','')+'/train')
         model = YOLO(f'./yolov8n.pt')
         model.loss = WeightedLoss(class_weights)
 
@@ -40,7 +40,7 @@ def train_current_hyperparams(hyperparams, data_path, name, epochs=-1):
             epochs = params['EPOCHS']
             
         results = model.train(task='detect', workers=workers,
-                            data=f'{data_path}/data.yaml',
+                            data=f'{data_path}',
                                 epochs=epochs,
                                 cache=False,
                                 batch=batch,
@@ -50,7 +50,7 @@ def train_current_hyperparams(hyperparams, data_path, name, epochs=-1):
                                 weight_decay=hyperparams['weight_decay'],
                                 optimizer=hyperparams['optimizer'],)  # train the model
             
-        results = model.val(data=f'{data_path}/data.yaml')
+        results = model.val(data=f'{data_path}')
 
     return results.box.map
 
@@ -120,7 +120,7 @@ def main():
     dagshub.init(repo_owner='benjamin.lopezl', repo_name='proyecto_mlops', mlflow=True)
     with mlflow.start_run():
         mlflow.autolog()
-        results = train_current_hyperparams(best_params, data_path=data_dir_path, name=experiment_name)
+        results = train_current_hyperparams(param_grid, data_path=f'{data_dir_path}/data.yaml', name=experiment_name)
             
         utils.save_model(experiment_name=experiment_name)
         utils.save_metrics(experiment_name=experiment_name)
