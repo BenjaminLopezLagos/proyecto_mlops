@@ -120,7 +120,7 @@ def main():
     dagshub.init(repo_owner='benjamin.lopezl', repo_name='proyecto_mlops', mlflow=True)
     with mlflow.start_run():
         mlflow.autolog()
-        results = train_current_hyperparams(param_grid, data_path=f'{data_dir_path}/data.yaml', name=experiment_name)
+        results = train_current_hyperparams(best_params, data_path=f'{data_dir_path}/data.yaml', name=experiment_name)
             
         utils.save_model(experiment_name=experiment_name)
         utils.save_metrics(experiment_name=experiment_name)
