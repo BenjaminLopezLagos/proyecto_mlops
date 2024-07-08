@@ -12,4 +12,4 @@ COPY streaming_api.py .
 COPY models/model.onnx ./models/
 
 EXPOSE 5000
-CMD ["python", "streaming_api.py"]
+ENTRYPOINT ["python", "streaming_api.py"]
