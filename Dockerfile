@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir pytest
 COPY . .
 
 EXPOSE 5000
-CMD ["python", "streaming_api.py"]
+CMD ["python", "streaming_api.py", "vid2.mp4"]
