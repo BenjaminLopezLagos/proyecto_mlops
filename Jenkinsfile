@@ -28,7 +28,7 @@ pipeline {
                 sh 'docker container exec potato_container dvc version'
                 sh 'docker container exec potato_container dvc remote modify origin --local access_key_id ${DH_S3_KEY}'
                 sh 'docker container exec potato_container dvc remote modify origin --local secret_access_key ${DH_S3_KEY}'
-                sh 'docker container exec potato_container dvc pull -r origin'
+                sh 'docker container exec potato_container dvc pull -r origin --force'
             }
         }
         /*
