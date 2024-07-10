@@ -69,7 +69,9 @@ def perform_grid_search(param_grid, data_path, ksplits=5):
             print(f"Params: {params}, map: {map}")
             cv_results.append(map)
 
+        print(cv_results)
         map = mean(cv_results)
+        print(f'AVG: {map}')
         if map > best_map:
             best_map = map
             best_params = params
@@ -108,9 +110,9 @@ def main():
     experiment_name = 'potato-training'
 
     param_grid = {
-        'lr0': [0.001, 0.0001],
-        'dropout': [0.5, 0.0],
-        'weight_decay': [0.01, 0.001],
+        'lr0': [0.0001],
+        'dropout': [0.5],
+        'weight_decay': [0.01],
         'optimizer': ['Adam'],
     }
 
